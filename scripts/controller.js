@@ -11,11 +11,10 @@ class ZmeyController {
     listenerGame() {
         this.clickStartPauseGame();
         this.pressKey();
-        this.clickStopGameBtn()
-        this.stopGameYes();
-        this.stopGameNo();
-        this.clickGameOverAgainBtn();
-        this.clickGameOverCloseBtn();
+        this.clickExitGameBtn();
+        this.exitGameYes();
+        this.exitGameNo();
+        this.clickAgainGameBtn();
     }
 
     clickStartPauseGame() {
@@ -30,49 +29,47 @@ class ZmeyController {
     }
 
     pressKey() {
-        window.onkeyup = (e) => {
+        window.onkeydown = (e) => {
             if (e.keyCode === 38) {
-                this.model.orientir = [-1, 0];
+                this.model.orientation = [-1, 0];
             } else if (e.keyCode === 39) {
-                this.model.orientir = [0, 1];
+                this.model.orientation = [0, 1];
             } else if (e.keyCode === 40) { 
-                this.model.orientir = [1, 0];
+                this.model.orientation = [1, 0];
             } else if (e.keyCode === 37) { 
-                this.model.orientir = [0, -1];
+                this.model.orientation = [0, -1];
             } else if (e.keyCode === 32) {
                 this.startPauseGame();
             }
         }
     }
 
-    clickStopGameBtn() {
-        this.elems.stopBtn.onclick = (e) => {
-            this.model.showWindowStopGame();
+    clickExitGameBtn() {
+        this.elems.exitBtn.onclick = (e) => {
+            this.model.showWindow("stop");
         }
     }
 
-    stopGameYes() {
-        this.elems.stopGameYesBtn.onclick = (e) => {
-            this.model.isStopGame(true);
+    exitGameYes() {
+        for (let i = 0; i < this.elems.exitGameBtns.length; i++) {
+            this.elems.exitGameBtns[i].onclick = (e) => {
+                this.model.exitGame();
+            }
         }
     }
 
-    stopGameNo() {
-        this.elems.stopGameNoBtn.onclick = (e) => {
-            this.model.isStopGame(false);
+    exitGameNo() {
+        this.elems.proceedGameBtn.onclick = (e) => {
+            this.model.closeWindow("stop", false);
         }
     }
 
-    clickGameOverAgainBtn() {
-        this.elems.gameOverAgainBtn.onclick = (e) => {
-            this.model.showWindowGameOver(false);
+    clickAgainGameBtn() {
+        for (let i = 0; i < this.elems.againGameBtns.length; i++) {
+            this.elems.againGameBtns[i].onclick = (e) => {
+                let winOrOver = e.target.getAttribute("data-again");
+                this.model.closeWindow(winOrOver, true);
+            }
         }
     }
-
-    clickGameOverCloseBtn() {
-        this.elems.gameOverCloseBtn.onclick = (e) => {
-            this.model.isStopGame(true);
-        }
-    }
-
 }

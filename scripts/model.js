@@ -1,45 +1,41 @@
 "use strict";
 
 class ZmeyModel {
-    constructor(field) {
-        this.field = field;
-        this.fieldY = this.field.length;
-        this.fieldX = this.field[0].length;
-        this.zmey = [[Math.floor(this.fieldY/2), Math.floor(this.fieldX/2)],];
-        this.zmeySpeed = 300;
+    constructor(fields) {
+        this.fields = fields;
+        this.field = null;
+        this.lengthFieldY = 0;
+        this.lengthFieldX = 0;
+        this.zmey = [[0, 0],];
+        this.zmeySpeed = 0;
         this.apple = [0, 0];
         this.level = 0;
         this.count = 0;
         this.isStartGame = false;
         this.ZmeyView = null;
         this.timerId = null;
-        this.orientir = [0, 1];
+        this.orientation = [0, 1];
     }
 
     setZmeyView(view) {
         this.ZmeyView = view;
     }
 
-    init(oridjinOrNew) {
-        if (oridjinOrNew === "oridjin") {
-            this.fieldY = this.field.length;
-            this.fieldX = this.field[0].length;
-            this.zmey = [[Math.floor(this.fieldY/2), Math.floor(this.fieldX/2)],];
-            this.zmeySpeed = 300;
-            this.level = 0;
-            this.count = 0;
+    init() {
+        this.field = this.fields[this.level].field;
+        this.lengthFieldY = this.fields[this.level].lengthFieldY;
+        this.lengthFieldX = this.fields[this.level].lengthFieldX;
+        this.zmeySpeed = this.fields[this.level].speed;
+
+        if (this.level === 0) {
+            this.zmey = [[Math.floor( this.lengthFieldY/2), Math.floor( this.lengthFieldX/2)],];
             this.isStartGame = false;
             this.timerId = null;
-            this.orientir = [0, 1];
-        }
-
-        if (oridjinOrNew === "new") {
-            this.fieldY = this.field.length;
-            this.fieldX = this.field[0].length;
-            this.zmeySpeed = 200;
+            this.orientation = [0, 1];
+            this.count = 0;
         }
         
-        this.setZmeyInField();
+        this.setZmeyInField(true);
         this.setAppleInField();
         this.ZmeyView.draw();
     }
@@ -50,8 +46,8 @@ class ZmeyModel {
         }
     }
 
-    setZmeyInField() {
-        this.cleanField();
+    setZmeyInField(bool) {
+        this.cleanField(bool);
         this.field[this.zmey[0][0]][this.zmey[0][1]] = 1;
         for (let i = 1; i < this.zmey.length; i++) {
             this.field[this.zmey[i][0]][this.zmey[i][1]] = 3;
@@ -72,8 +68,8 @@ class ZmeyModel {
     }
 
     setAppleInField() {
-        this.apple[0] = this.getRandomNumber(this.fieldY);
-        this.apple[1] = this.getRandomNumber(this.fieldX);
+        this.apple[0] = this.getRandomNumber(this.lengthFieldY);
+        this.apple[1] = this.getRandomNumber(this.lengthFieldX);
         if (this.field[this.apple[0]][this.apple[1]] === 0) {
             this.field[this.apple[0]][this.apple[1]] = 2
         } else {
@@ -87,24 +83,24 @@ class ZmeyModel {
 
     moveZmey() {
         this.moveTail();
-        this.orientirZmeyHead(); 
+        this.orientationZmeyHead(); 
     }
 
-    orientirZmeyHead() {
-        this.zmey[0][0] += this.orientir[0];
-        if (this.zmey[0][0] >= this.fieldY) {
+    orientationZmeyHead() {
+        this.zmey[0][0] += this.orientation[0];
+        if (this.zmey[0][0] >= this.lengthFieldY) {
             this.zmey[0][0] = 0;
         }
         if (this.zmey[0][0] < 0) {
-            this.zmey[0][0] = this.fieldY - 1;
+            this.zmey[0][0] = this.lengthFieldY - 1;
         }
 
-        this.zmey[0][1] += this.orientir[1];
-        if (this.zmey[0][1] >= this.fieldX) {
+        this.zmey[0][1] += this.orientation[1];
+        if (this.zmey[0][1] >= this.lengthFieldX) {
             this.zmey[0][1] = 0;
         }
         if (this.zmey[0][1] < 0) {
-            this.zmey[0][1] = this.fieldX - 1;
+            this.zmey[0][1] = this.lengthFieldX - 1;
         }
     }
 
@@ -129,36 +125,29 @@ class ZmeyModel {
     startGame() {
         this.updateStartPauseBtn();
         if (this.isStartGame) {
-            this.timerId = setInterval(() => {
-                this.moveZmey();
-                this.oopsHeadEatTail();
-                this.setZmeyInField();
-                this.eatApple();
-                this.update();
-            }, this.zmeySpeed);
+           this.live();
         } else {
-            clearInterval(this.timerId);
+            clearTimeout(this.timerId);
         }
+    }
+
+    live() {
+        this.moveZmey();
+        this.oopsHeadEatTail();
+        this.setZmeyInField();
+        this.eatApple();
+        this.update();
+        this.timerId = setTimeout(() => {
+            this.live();
+        }, this.zmeySpeed)
     }
     
-    showWindowStopGame() {
-        this.ZmeyView.showWindowStopGame(true);
-    }
-
-    isStopGame(bool) {
-        if (bool) {
-            close();
-        } else {
-            this.ZmeyView.showWindowStopGame(false);
-        }
-    }
-
     eatApple() {
         if (this.field[this.apple[0]][this.apple[1]] === this.field[this.zmey[0][0]][this.zmey[0][1]]) {
            this.addTail();
            this.setAppleInField();
            this.addPointInCount();
-           this.setLevel();
+           this.setNewLevelGame();
         }
     }
 
@@ -172,33 +161,50 @@ class ZmeyModel {
         this.zmey.push([this.zmey[this.zmey.length-1][0], this.zmey[this.zmey.length-1][1] + 1]);
     }
 
-    showWindowGameOver(bool) {
-        if(!bool) {
-           this.init("oridjin");
-        }
-        this.ZmeyView.showWindowGameOver(bool, this.count, this.level);
+    showWindow(what) {
+        this.ZmeyView.showWindow(what, this.count, this.level);
     }
-    
+
+    closeWindow(what, isGameInit) {
+        if(isGameInit) {
+            clearTimeout(this.timerId);
+            this.level = 0;
+            this.init();
+        }
+        this.ZmeyView.closeWindow(what, this.count, this.level);
+    }
+
+    exitGame() {
+        close();
+    }
+
     oopsHeadEatTail() {
         if (this.field[this.zmey[0][0]][this.zmey[0][1]] === 3) {
             this.isStartGame = false;
             this.startGame();
-            this.cleanField(true);
-            this.showWindowGameOver(true);
+            this.showWindow("over");
         }
     }
 
-    setLevel() {
-        if( this.count === 500) {
-            this.level = 1;
-            this.setNewLevel();
-        }
-
+    setLevelInView() {
         this.ZmeyView.setLevel(this.level);
     }
 
-    setNewLevel() {
-        this.field = new Field(30, 30).getField();
-        this.init("new");
+    setNewLevelGame() {
+        if ( this.count === this.fields[this.level].count) {
+            this.level += 1;
+            this.winGame() === false ? this.init() : "";
+            this.setLevelInView();
+        }
+    }
+
+    winGame() {
+        if( this.count === this.fields[this.fields.length-1].count) {   
+            this.isStartGame = false;
+            this.startGame();
+            this.showWindow("win");
+            return true;
+        }
+        return false;
     }
 }

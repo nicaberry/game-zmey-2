@@ -1,4 +1,4 @@
-.game-over-container {
+.game-container {
     position: fixed;
     top: 0;
     right: 0;
@@ -12,7 +12,7 @@
     background: rgba(57, 42, 141, 0.5);
 }
 
-.game-over-card {
+.game-card {
     width: 50%;
     height: 40%;
     padding: 2rem;
@@ -26,8 +26,22 @@
     background-color: rgb(188, 181, 226);
 }
 
-.game-over-message {
+.game-message {
     font-size: 3rem;
     margin: 0 0 1rem;
     text-align: center;
 }
+
+.game-level {
+
+}
+
+.game-count {
+
+}
+
+
+.game-btn {
+
+}
+

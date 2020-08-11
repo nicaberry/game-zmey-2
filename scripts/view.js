@@ -54,30 +54,41 @@ class ZmeyView {
         }
     }
 
-    showWindowStopGame(bool) {
-        if (bool) {
-            this.elems.stopGameContainer.style.display = "flex";
-        } else { 
-            this.elems.stopGameContainer.style.display = "none";
-        }
-    }
-
     addCount(number) {
         this.elems.count.innerHTML = number;
     }
 
-    showWindowGameOver(bool, count, level) {
-        if (bool) {
+    showWindow(what, count, level) {
+        if (what === "stop") {
+            this.elems.exitGameContainer.style.display = "flex";
+        }
+        if (what === "over") {
             this.elems.gameOverCount.innerHTML = count;
             this.elems.gameOverLevel.innerHTML = level;
             this.elems.gameOverContainer.style.display = "flex";
-        } else {   
-            this.elems.count.innerHTML = count;
-            this.elems.level.innerHTML = level;
-            this.elems.gameOverContainer.style.display = "none";
+        }
+        if (what === "win") {
+            this.elems.gameWinCount.innerHTML = count;
+            this.elems.gameWinLevel.innerHTML = level;
+            this.elems.gameWinContainer.style.display = "flex";
         }
     }
-    
+
+    closeWindow(what, count, level) {
+        if (what === "stop") {
+            this.elems.exitGameContainer.style.display = "none";
+        }
+
+        this.elems.count.innerHTML = count;
+        this.elems.level.innerHTML = level;
+        if (what === "over") {
+            this.elems.gameOverContainer.style.display = "none";
+        }
+        if (what === "win") {
+            this.elems.gameWinContainer.style.display = "none";
+        }
+    }
+
     setLevel(level) {
         this.elems.level.innerHTML = level;
     }
