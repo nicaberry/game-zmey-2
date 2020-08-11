@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Zmey 2</title>
+    <link rel="stylesheet" href="css/stop-game.css">
+    <link rel="stylesheet" href="css/game-over.css">
+    <link rel="stylesheet" href="css/container-grid.css">
+    <link rel="stylesheet" href="css/field.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div class="conteiner-grid">
+        <header class="header">
+            <h1>GAME ZMEY 2</h1>
+        </header>
+        <main class="main">
+            <header>
+                <p class="level">Level: <span>0</span></p>
+                <p class="count">Count: <span>0</span></p>
+                <button  class="startPauseBtn">start</button>
+                <button  class="stopBtn">stop game</button>
+            </header>
+            <div class="stop-game-container">
+                <div class="stop-game-card">
+                    <p class="stop-game-message">Вы уверены что хотите покинуть игру?</p>
+                    <div>
+                        <button class="stop-game-yesBtn">yes</button>
+                        <button class="stop-game-noBtn">no</button>
+                    </div>
+                </div>
+            </div>
+            <div class="game-over-container">
+                <div class="game-over-card">
+                    <p class="game-over-count">Ваши очки: <span>0</span></p>
+                    <p class="game-over-level">Ваш уровень: <span>0</span></p>
+                    <p class="game-over-message">GAME OVER</p>
+                    <p class="game-over-message">Вы хотите играть сначала?</p>
+                    <div>
+                        <button class="game-over-againBtn">yes</button>
+                        <button class="game-over-closeBtn">no</button>
+                    </div>
+                </div>
+            </div>
+            <div id="conteiner-game"></div>
+        </main>
+        <footer class="footer">
+            <p><span>&#127827;</span>2020<span>&#127827;</span></p>
+        </footer>
+    </div>
+    <script src="scripts/field.js"></script>
+    <script src="scripts/model.js"></script>
+    <script src="scripts/view.js"></script>
+    <script src="scripts/controller.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+.game-over-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(57, 42, 141, 0.5);
+}
+
+.game-over-card {
+    width: 50%;
+    height: 40%;
+    padding: 2rem;
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgb(188, 181, 226);
+}
+
+.game-over-message {
+    font-size: 3rem;
+    margin: 0 0 1rem;
+    text-align: center;
+}
