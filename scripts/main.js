@@ -4,6 +4,10 @@ window.onload = () => {
     let containerGame = document.querySelector("#conteiner-game");
     
     let elems = {
+        gameRulesContainer: document.querySelector(".game-rules"),
+        closeRulesBtn: document.querySelector(".game-rulesCloseBtn"),
+        openRulesBtn: document.querySelector(".game-rulesOpenBtn"),
+
         level: document.querySelector(".level span"),
         count: document.querySelector(".count span"),
         startPauseBtn: document.querySelector(".startPauseBtn"),
@@ -28,6 +32,7 @@ window.onload = () => {
             field: new Field(15, 15).getField(),
             lengthFieldY: 15,
             lengthFieldX: 15,
+            numberRottenApples: 2,
             level: 0,
             count: 500,
             speed: 300,
@@ -36,6 +41,7 @@ window.onload = () => {
             field: new Field(20, 20).getField(),
             lengthFieldY: 20,
             lengthFieldX: 20,
+            numberRottenApples: 4,
             level: 1,
             count: 1000,
             speed: 200,
@@ -44,6 +50,7 @@ window.onload = () => {
             field: new Field(30, 30).getField(),
             lengthFieldY: 30,
             lengthFieldX: 30,
+            numberRottenApples: 6,
             level:2,
             count: 1500,
             speed: 100,

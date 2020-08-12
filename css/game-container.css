@@ -26,22 +26,80 @@
     background-color: rgb(188, 181, 226);
 }
 
-.game-message {
-    font-size: 3rem;
+.game-message,
+.game-message-big {
     margin: 0 0 1rem;
     text-align: center;
 }
-
-.game-level {
-
+.game-message {
+    font-size: 2rem;
 }
 
-.game-count {
+.game-message-big {
+    font-size: 3rem;
+    font-weight: bold;
+}
 
+.game-level,
+.game-count {
+    color: rgb(94, 94, 95);
+    margin: 0 0 10px;
+}
+
+.game-level span,
+.game-count span {
+    font-weight: bold;
+    color: rgb(57, 42, 141);
 }
 
 
 .game-btn {
-
+    width: 5rem;
+    color: rgb(188, 181, 226);
+    background:  rgb(57, 42, 141);
+    border: 2px solid rgb(57, 42, 141);
+    border-radius: 50px;
+    font-family: inherit;
+    font-size: 18px;
+    padding: 5px;
+    margin: 1rem;
+    cursor: pointer;
+    outline: none;
 }
+
+.game-btn:hover {
+    color: rgb(57, 42, 141);
+    background:  rgb(188, 181, 226);
+}
+
+.game-btn:active {
+    color: teal;
+    border: 2px solid teal;
+}
+
+.game-rules {
+    display: flex;
+}
+
+.game-message-rules_tail span,
+.game-message-rules_rotten span,
+.game-message-rules_apple span {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 1px solid rgb(94, 94, 95);
+}
+
+.game-message-rules_tail span {
+    background-color: rgb(2, 153, 153);
+}
+
+.game-message-rules_apple span {
+    background-color: tomato;
+}
+
+.game-message-rules_rotten span {
+    background-color: rgb(19, 1, 1);
+}
+
 

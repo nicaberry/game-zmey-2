@@ -43,6 +43,9 @@ class ZmeyView {
         if (id === 3) {
             return this.createElem("div", "tail");
         }
+        if (id === 4) {
+            return this.createElem("div", "rottenApples");
+        }
     }
 
     
@@ -72,6 +75,9 @@ class ZmeyView {
             this.elems.gameWinLevel.innerHTML = level;
             this.elems.gameWinContainer.style.display = "flex";
         }
+        if (what === "rules") {
+            this.elems.gameRulesContainer.style.display = "flex";
+        }
     }
 
     closeWindow(what, count, level) {
@@ -86,6 +92,9 @@ class ZmeyView {
         }
         if (what === "win") {
             this.elems.gameWinContainer.style.display = "none";
+        }
+        if (what === "rules") {
+            this.elems.gameRulesContainer.style.display = "none";
         }
     }
 

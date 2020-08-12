@@ -10,7 +10,8 @@
 .divX,
 .zmey,
 .apple,
-.tail {
+.tail,
+.rottenApples {
     width: 15px;
     height: 15px;
     border-left: 1px solid rgb(94, 94, 95);
@@ -27,4 +28,8 @@
 
 .tail {
     background-color: rgb(2, 153, 153);
+}
+
+.rottenApples {
+    background-color: rgb(19, 1, 1);
 }

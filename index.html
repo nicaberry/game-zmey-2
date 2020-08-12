@@ -15,15 +15,25 @@
             <h1>GAME ZMEY 2</h1>
         </header>
         <main class="main">
-            <header>
-                <p class="level">Level: <span>0</span></p>
-                <p class="count">Count: <span>0</span></p>
-                <button  class="startPauseBtn">start</button>
-                <button  class="exitBtn">exit</button>
+            <header>  
+                <p class="game-level level">Level: <span>0</span></p>
+                <p class="game-count count">Count: <span>0</span></p>
+                <button  class="game-btn exitBtn">exit</button>
+                <button  class="game-btn game-rulesOpenBtn">rules</button>
+                <button  class="game-btn startPauseBtn">start</button>
             </header>
+            <div class="game-rules game-container">
+                <div class="game-card">
+                    <p class="game-message-big">Rules of the game:</p>
+                    <p class="game-message game-message-rules_tail">1.don't eat tail - <span></span>;</p>
+                    <p class="game-message game-message-rules_rotten">2.don't eat rotten apples - <span></span>;</p>
+                    <p class="game-message game-message-rules_apple">3.eat apple - <span></span>;</p>
+                    <button class="game-btn game-rulesCloseBtn">exit</button>
+                </div>
+            </div>
             <div class="exit-game game-container">
                 <div class="game-card">
-                    <p class="game-message">Вы уверены что хотите покинуть игру?</p>
+                    <p class="game-message">Are you sure, what you want to leave the game?</p>
                     <div>
                         <button class="game-btn game-exitBtn">yes</button>
                         <button class=" game-btn game-proceedBtn">no</button>
@@ -32,10 +42,10 @@
             </div>
             <div class="game-over game-container">
                 <div class="game-card">
-                    <p class="game-over-count">Ваши очки: <span>0</span></p>
-                    <p class="game-over-level">Ваш уровень: <span>0</span></p>
-                    <p class="game-message">GAME OVER</p>
-                    <p class="game-message">Вы хотите играть сначала?</p>
+                    <p class="game-count game-over-count">Count: <span>0</span></p>
+                    <p class="game-level game-over-level">Level: <span>0</span></p>
+                    <p class="game-message-big">GAME OVER</p>
+                    <p class="game-message">Want to play again?</p>
                     <div>
                         <button data-again="over" class="game-btn game-againBtn">yes</button>
                         <button class="game-btn game-exitBtn">exit</button>
@@ -44,10 +54,10 @@
             </div>
             <div class="game-win game-container">
                 <div class="game-card">
-                    <p class="game-win-count">Ваши очки: <span>0</span></p>
-                    <p class="game-win-level">Ваш уровень: <span>0</span></p>
-                    <p class="game-message">YOU ARE FIN!!!</p>
-                    <p class="game-message">Вы хотите играть сначала?</p>
+                    <p class="game-count game-win-count">Count: <span>0</span></p>
+                    <p class="game-level game-win-level">Level: <span>0</span></p>
+                    <p class="game-message-big">YOU ARE FIN!!!</p>
+                    <p class="game-message">Want to play again?</p>
                     <div>
                         <button data-again="win" class="game-btn game-againBtn">yes</button>
                         <button class="game-btn game-exitBtn">exit</button>

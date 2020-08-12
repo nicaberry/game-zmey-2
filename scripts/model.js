@@ -9,12 +9,15 @@ class ZmeyModel {
         this.zmey = [[0, 0],];
         this.zmeySpeed = 0;
         this.apple = [0, 0];
+        this.rottenApples = [[0, 0],];
+        this.numberRottenApples = 0;
         this.level = 0;
         this.count = 0;
         this.isStartGame = false;
         this.ZmeyView = null;
         this.timerId = null;
         this.orientation = [0, 1];
+        this.isWinOrOverGame = false;
     }
 
     setZmeyView(view) {
@@ -26,17 +29,19 @@ class ZmeyModel {
         this.lengthFieldY = this.fields[this.level].lengthFieldY;
         this.lengthFieldX = this.fields[this.level].lengthFieldX;
         this.zmeySpeed = this.fields[this.level].speed;
-
+        this.numberRottenApples = this.fields[this.level].numberRottenApples;
         if (this.level === 0) {
             this.zmey = [[Math.floor( this.lengthFieldY/2), Math.floor( this.lengthFieldX/2)],];
             this.isStartGame = false;
             this.timerId = null;
             this.orientation = [0, 1];
             this.count = 0;
+            this.isWinOrOverGame = false;
         }
         
         this.setZmeyInField(true);
         this.setAppleInField();
+        this.setRottenApplesInField();
         this.ZmeyView.draw();
     }
 
@@ -60,7 +65,7 @@ class ZmeyModel {
                 if (this.field[i][j] === 1 || this.field[i][j] === 3) {
                     this.field[i][j] = 0;
                 }
-                if (boolApple && this.field[i][j] === 2)  {
+                if (boolApple && this.field[i][j] === 2 || boolApple && this.field[i][j] === 4)  {
                     this.field[i][j] = 0;
                 }
             }
@@ -75,6 +80,49 @@ class ZmeyModel {
         } else {
             this.setAppleInField();
         }
+    }
+
+
+    setRottenApplesInField() {
+        this.rottenApples = [];
+        for (let i = 0; i < this.numberRottenApples; i++) {
+            let arr = [0, 0];
+            arr[0] = this.getRandomNumber(this.lengthFieldY);
+            arr[1] = this.getRandomNumber(this.lengthFieldX);
+            let checkArr = this.createCheckArrForCheckRottenApples(arr);
+            let isCheck = this.checkRottenApples(checkArr);
+            if (this.field[arr[0]][arr[1]] === 0 && isCheck) {
+                this.rottenApples.push(arr);
+            } else {
+                i--;
+            }
+        }
+
+        this.rottenApples.forEach(item => {
+            this.field[item[0]][item[1]] = 4;
+        })
+    }
+
+    checkRottenApples(checkArr) {
+        let arr = [];
+        checkArr.forEach(item => {
+           
+            if (this.field[item[0]] !== undefined) {
+                if ( this.field[item[0]][item[1]] !== undefined) {
+                    arr.push(this.field[item[0]][item[1]]);
+                }
+            }
+        });
+        return arr.every(item => item === 0);
+    }
+
+    createCheckArrForCheckRottenApples(arr) {
+        let checkArr = [];
+        checkArr.push([arr[0] + 1, arr[1]]);
+        checkArr.push([arr[0] - 1, arr[1]]);
+        checkArr.push([arr[0], arr[1] + 1]);
+        checkArr.push([arr[0], arr[1] - 1]);
+        return checkArr;
     }
 
     getRandomNumber(max) {
@@ -133,7 +181,7 @@ class ZmeyModel {
 
     live() {
         this.moveZmey();
-        this.oopsHeadEatTail();
+        this.oopsHeadEatTailOrRottenApple();
         this.setZmeyInField();
         this.eatApple();
         this.update();
@@ -178,10 +226,11 @@ class ZmeyModel {
         close();
     }
 
-    oopsHeadEatTail() {
-        if (this.field[this.zmey[0][0]][this.zmey[0][1]] === 3) {
+    oopsHeadEatTailOrRottenApple() {
+        if (this.field[this.zmey[0][0]][this.zmey[0][1]] === 3 || this.field[this.zmey[0][0]][this.zmey[0][1]] === 4) {
             this.isStartGame = false;
             this.startGame();
+            this.isWinOrOverGame = true;
             this.showWindow("over");
         }
     }
@@ -202,6 +251,7 @@ class ZmeyModel {
         if( this.count === this.fields[this.fields.length-1].count) {   
             this.isStartGame = false;
             this.startGame();
+            this.isWinOrOverGame = true;
             this.showWindow("win");
             return true;
         }

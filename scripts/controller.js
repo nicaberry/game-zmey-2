@@ -15,30 +15,51 @@ class ZmeyController {
         this.exitGameYes();
         this.exitGameNo();
         this.clickAgainGameBtn();
+        this.clickCloseRulesBtn();
+        this.clickOpenRulesBtn(); 
+    }
+
+    clickCloseRulesBtn() {
+        this.elems.closeRulesBtn.onclick = (e) => {
+            this.model.closeWindow("rules", false);
+        }
+    }
+
+    clickOpenRulesBtn() {
+        this.elems.openRulesBtn.onclick = (e) => {
+            this.model.showWindow("rules");
+        }
     }
 
     clickStartPauseGame() {
-        this.elems.startPauseBtn.onclick = (e) => {
-            this.startPauseGame();
+        if (!this.model.isWinOrOverGame) {
+            this.elems.startPauseBtn.onclick = (e) => {
+                this.startPauseGame();
+            }
         }
     }
 
     startPauseGame() {
-        this.model.isStartGame = !this.model.isStartGame;
-        this.model.startGame();
+        if (!this.model.isWinOrOverGame) {
+            this.model.isStartGame = !this.model.isStartGame;
+            this.model.startGame();
+        }
     }
 
     pressKey() {
         window.onkeydown = (e) => {
-            if (e.keyCode === 38) {
-                this.model.orientation = [-1, 0];
-            } else if (e.keyCode === 39) {
-                this.model.orientation = [0, 1];
-            } else if (e.keyCode === 40) { 
-                this.model.orientation = [1, 0];
-            } else if (e.keyCode === 37) { 
-                this.model.orientation = [0, -1];
-            } else if (e.keyCode === 32) {
+            if(this.model.isStartGame) {
+                if (e.keyCode === 38) {
+                    this.model.orientation = [-1, 0];
+                } else if (e.keyCode === 39) {
+                    this.model.orientation = [0, 1];
+                } else if (e.keyCode === 40) { 
+                    this.model.orientation = [1, 0];
+                } else if (e.keyCode === 37) { 
+                    this.model.orientation = [0, -1];
+                } 
+            }
+            if (e.keyCode === 32) {
                 this.startPauseGame();
             }
         }
