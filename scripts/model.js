@@ -28,6 +28,7 @@ class ZmeyModel {
         this.field = this.fields[this.level].field;
         this.lengthFieldY = this.fields[this.level].lengthFieldY;
         this.lengthFieldX = this.fields[this.level].lengthFieldX;
+        this.setZmeyInNewLevel();
         this.zmeySpeed = this.fields[this.level].speed;
         this.numberRottenApples = this.fields[this.level].numberRottenApples;
         if (this.level === 0) {
@@ -48,6 +49,13 @@ class ZmeyModel {
         if (this.isStartGame) {
             this.ZmeyView.draw();
         }
+    }
+
+    setZmeyInNewLevel() {
+        for (let i = 0; i < this.zmey.length; i++) {
+            this.zmey[i][0] = Math.floor( this.lengthFieldY/2);
+            this.zmey[i][1] = Math.floor( this.lengthFieldX/2);
+        };
     }
 
     setZmeyInField(isApple) {
@@ -80,7 +88,6 @@ class ZmeyModel {
             this.setAppleInField();
         }
     }
-
 
     setRottenApplesInField() {
         this.rottenApples = [];
@@ -180,18 +187,12 @@ class ZmeyModel {
         }
     }
 
-    startGame() {
-        this.live();
-    }
-
     stopGame() {
         clearTimeout(this.timerId);
         this.timerId = null;
-
     }
 
-
-    live() {
+    startGame() {
         if (this.timerId === null) {
             this.timerId = setInterval(() => {
                 this.moveZmey();
@@ -233,7 +234,6 @@ class ZmeyModel {
     closeWindow(what, isGameInit) {
         this.isWindowOpen = false;
         if (isGameInit) {
-            clearTimeout(this.timerId);
             this.level = 0;
             this.init();
         }
@@ -246,7 +246,8 @@ class ZmeyModel {
 
     oopsHeadEatTailOrRottenApple() {
         if (this.field[this.zmey[0][0]][this.zmey[0][1]] === 3 || this.field[this.zmey[0][0]][this.zmey[0][1]] === 4) {
-            this.stopGame();
+            this.startPauseGame();
+            console.log(this.isStartGame)
             this.showWindow("over");
         }
     }
@@ -267,7 +268,7 @@ class ZmeyModel {
 
     winGame() {
         if (this.count === this.fields[this.fields.length-1].count) { 
-            this.stopGame(); 
+            this.startPauseGame();
             this.setLevelInView();
             this.showWindow("win");
             return true;
@@ -275,3 +276,4 @@ class ZmeyModel {
         return false;
     }
 }
+

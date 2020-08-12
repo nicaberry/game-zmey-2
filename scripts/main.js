@@ -29,6 +29,15 @@ window.onload = () => {
 
     let fields = [
         {
+            field: new Field(20, 20).getField(),
+            lengthFieldY: 20,
+            lengthFieldX: 20,
+            numberRottenApples: 4,
+            level: 1,
+            count: 1000,
+            speed: 200,
+        },
+        {
             field: new Field(15, 15).getField(),
             lengthFieldY: 15,
             lengthFieldX: 15,
@@ -57,7 +66,6 @@ window.onload = () => {
         },
     ];
 
-    // let field = new Field(15, 15).getField();
     let zmeyModel = new ZmeyModel(fields);
     let zmeyView = new ZmeyView(zmeyModel, containerGame, elems);
     zmeyModel.setZmeyView(zmeyView);
