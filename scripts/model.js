@@ -17,7 +17,7 @@ class ZmeyModel {
         this.ZmeyView = null;
         this.timerId = null;
         this.orientation = [0, 1];
-        this.isWinOrOverGame = false;
+        this.isWindowOpen = true;
     }
 
     setZmeyView(view) {
@@ -36,17 +36,16 @@ class ZmeyModel {
             this.timerId = null;
             this.orientation = [0, 1];
             this.count = 0;
-            this.isWinOrOverGame = false;
         }
         
         this.setZmeyInField(true);
         this.setAppleInField();
         this.setRottenApplesInField();
-        this.ZmeyView.draw();
+        this.update();
     }
 
     update() {
-        if(this.isStartGame) {
+        if (this.isStartGame) {
             this.ZmeyView.draw();
         }
     }
@@ -108,7 +107,7 @@ class ZmeyModel {
         checkArr.forEach(item => {
            
             if (this.field[item[0]] !== undefined) {
-                if ( this.field[item[0]][item[1]] !== undefined) {
+                if (this.field[item[0]][item[1]] !== undefined) {
                     arr.push(this.field[item[0]][item[1]]);
                 }
             }
@@ -169,15 +168,25 @@ class ZmeyModel {
     updateStartPauseBtn() {
         this.ZmeyView.updateStartPauseBtn(this.isStartGame);
     }
-
-    startGame() {
+    
+    startPauseGame() {
+        this.isStartGame = !this.isStartGame;
         this.updateStartPauseBtn();
         if (this.isStartGame) {
-           this.live();
+            this.startGame();
         } else {
-            clearTimeout(this.timerId);
+            this.stopGame(); 
         }
     }
+
+    startGame() {
+        this.live();
+    }
+
+    stopGame() {
+        clearTimeout(this.timerId);
+    }
+
 
     live() {
         this.moveZmey();
@@ -187,7 +196,7 @@ class ZmeyModel {
         this.update();
         this.timerId = setTimeout(() => {
             this.live();
-        }, this.zmeySpeed)
+        }, this.zmeySpeed);
     }
     
     eatApple() {
@@ -195,7 +204,9 @@ class ZmeyModel {
            this.addTail();
            this.setAppleInField();
            this.addPointInCount();
-           this.setNewLevelGame();
+           if(!this.winGame()) {
+                this.setNewLevelGame();
+           } 
         }
     }
 
@@ -210,11 +221,13 @@ class ZmeyModel {
     }
 
     showWindow(what) {
+        this.isWindowOpen = true;
         this.ZmeyView.showWindow(what, this.count, this.level);
     }
 
     closeWindow(what, isGameInit) {
-        if(isGameInit) {
+        this.isWindowOpen = false;
+        if (isGameInit) {
             clearTimeout(this.timerId);
             this.level = 0;
             this.init();
@@ -228,9 +241,6 @@ class ZmeyModel {
 
     oopsHeadEatTailOrRottenApple() {
         if (this.field[this.zmey[0][0]][this.zmey[0][1]] === 3 || this.field[this.zmey[0][0]][this.zmey[0][1]] === 4) {
-            this.isStartGame = false;
-            this.startGame();
-            this.isWinOrOverGame = true;
             this.showWindow("over");
         }
     }
@@ -240,18 +250,15 @@ class ZmeyModel {
     }
 
     setNewLevelGame() {
-        if ( this.count === this.fields[this.level].count) {
+        if (this.count === this.fields[this.level].count) {
             this.level += 1;
-            this.winGame() === false ? this.init() : "";
+            this.init();
             this.setLevelInView();
         }
     }
 
     winGame() {
-        if( this.count === this.fields[this.fields.length-1].count) {   
-            this.isStartGame = false;
-            this.startGame();
-            this.isWinOrOverGame = true;
+        if (this.count === this.fields[this.fields.length-1].count) {  
             this.showWindow("win");
             return true;
         }

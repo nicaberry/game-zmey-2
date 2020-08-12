@@ -32,19 +32,11 @@ class ZmeyController {
     }
 
     clickStartPauseGame() {
-        if (!this.model.isWinOrOverGame) {
-            this.elems.startPauseBtn.onclick = (e) => {
-                this.startPauseGame();
-            }
+        this.elems.startPauseBtn.onclick = (e) => {
+            this.model.startPauseGame();
         }
     }
 
-    startPauseGame() {
-        if (!this.model.isWinOrOverGame) {
-            this.model.isStartGame = !this.model.isStartGame;
-            this.model.startGame();
-        }
-    }
 
     pressKey() {
         window.onkeydown = (e) => {
@@ -59,8 +51,13 @@ class ZmeyController {
                     this.model.orientation = [0, -1];
                 } 
             }
-            if (e.keyCode === 32) {
-                this.startPauseGame();
+            
+            if (!this.model.isWindowOpen) {
+                if (e.keyCode === 32) {
+                    if (!e.target.classList.contains("game-btn")) {
+                        this.model.startPauseGame();
+                    }
+                }
             }
         }
     }
