@@ -53,8 +53,8 @@ class ZmeyModel {
 
     setZmeyInNewLevel() {
         for (let i = 0; i < this.zmey.length; i++) {
-            this.zmey[i][0] = Math.floor( this.lengthFieldY/2);
-            this.zmey[i][1] = Math.floor( this.lengthFieldX/2);
+            this.zmey[i][0] = Math.floor(this.lengthFieldY/2);
+            this.zmey[i][1] = Math.floor(this.lengthFieldX/2);
         };
     }
 
@@ -247,7 +247,6 @@ class ZmeyModel {
     oopsHeadEatTailOrRottenApple() {
         if (this.field[this.zmey[0][0]][this.zmey[0][1]] === 3 || this.field[this.zmey[0][0]][this.zmey[0][1]] === 4) {
             this.startPauseGame();
-            console.log(this.isStartGame)
             this.showWindow("over");
         }
     }

@@ -29,15 +29,6 @@ window.onload = () => {
 
     let fields = [
         {
-            field: new Field(20, 20).getField(),
-            lengthFieldY: 20,
-            lengthFieldX: 20,
-            numberRottenApples: 4,
-            level: 1,
-            count: 1000,
-            speed: 200,
-        },
-        {
             field: new Field(15, 15).getField(),
             lengthFieldY: 15,
             lengthFieldX: 15,
@@ -53,6 +44,15 @@ window.onload = () => {
             numberRottenApples: 4,
             level: 1,
             count: 1000,
+            speed: 250,
+        },
+        {
+            field: new Field(15, 15).getField(),
+            lengthFieldY: 15,
+            lengthFieldX: 15,
+            numberRottenApples: 2,
+            level: 2,
+            count: 1500,
             speed: 200,
         },
         {
@@ -60,8 +60,17 @@ window.onload = () => {
             lengthFieldY: 30,
             lengthFieldX: 30,
             numberRottenApples: 6,
-            level: 2,
-            count: 1500,
+            level: 3,
+            count: 2000,
+            speed: 150,
+        },
+        {
+            field: new Field(20, 40).getField(),
+            lengthFieldY: 20,
+            lengthFieldX: 40,
+            numberRottenApples: 6,
+            level: 4,
+            count: 2500,
             speed: 100,
         },
     ];

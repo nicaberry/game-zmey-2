@@ -1,10 +1,10 @@
 "use strict";
 
 class Field {
-    constructor(x, y) {
+    constructor(y, x) {
         this.field = [];
-        this.x = x;
         this.y = y;
+        this.x = x;
 
         this.create(this.x, this.y);
     }
