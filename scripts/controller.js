@@ -33,7 +33,9 @@ class ZmeyController {
 
     clickStartPauseGame() {
         this.elems.startPauseBtn.onclick = (e) => {
-            this.model.startPauseGame();
+            if (!this.model.isWindowOpen) {
+                this.model.startPauseGame();
+            }
         }
     }
 
@@ -56,7 +58,7 @@ class ZmeyController {
                 if (e.keyCode === 32) {
                     if (!e.target.classList.contains("game-btn")) {
                         this.model.startPauseGame();
-                    }
+                    }  
                 }
             }
         }

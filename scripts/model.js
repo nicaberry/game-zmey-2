@@ -41,7 +41,7 @@ class ZmeyModel {
         this.setZmeyInField(true);
         this.setAppleInField();
         this.setRottenApplesInField();
-        this.update();
+        this.ZmeyView.draw();
     }
 
     update() {
@@ -50,21 +50,21 @@ class ZmeyModel {
         }
     }
 
-    setZmeyInField(bool) {
-        this.cleanField(bool);
+    setZmeyInField(isApple) {
+        this.cleanField(isApple);
         this.field[this.zmey[0][0]][this.zmey[0][1]] = 1;
         for (let i = 1; i < this.zmey.length; i++) {
             this.field[this.zmey[i][0]][this.zmey[i][1]] = 3;
         }
     }
 
-    cleanField(boolApple = false) {
+    cleanField(isApple = false) {
         for (let i = 0; i < this.field.length; i++) {
             for (let j = 0; j < this.field[i].length; j++) {
                 if (this.field[i][j] === 1 || this.field[i][j] === 3) {
                     this.field[i][j] = 0;
                 }
-                if (boolApple && this.field[i][j] === 2 || boolApple && this.field[i][j] === 4)  {
+                if (isApple && this.field[i][j] === 2 || isApple && this.field[i][j] === 4)  {
                     this.field[i][j] = 0;
                 }
             }
@@ -176,6 +176,7 @@ class ZmeyModel {
             this.startGame();
         } else {
             this.stopGame(); 
+            this.timerId = null;
         }
     }
 
@@ -185,18 +186,21 @@ class ZmeyModel {
 
     stopGame() {
         clearTimeout(this.timerId);
+        this.timerId = null;
+
     }
 
 
     live() {
-        this.moveZmey();
-        this.oopsHeadEatTailOrRottenApple();
-        this.setZmeyInField();
-        this.eatApple();
-        this.update();
-        this.timerId = setTimeout(() => {
-            this.live();
-        }, this.zmeySpeed);
+        if (this.timerId === null) {
+            this.timerId = setInterval(() => {
+                this.moveZmey();
+                this.oopsHeadEatTailOrRottenApple();
+                this.setZmeyInField();
+                this.eatApple();
+                this.update();
+            }, this.zmeySpeed);
+        } 
     }
     
     eatApple() {
@@ -206,7 +210,8 @@ class ZmeyModel {
            this.addPointInCount();
            if(!this.winGame()) {
                 this.setNewLevelGame();
-           } 
+           }  else {  
+           }
         }
     }
 
@@ -241,24 +246,29 @@ class ZmeyModel {
 
     oopsHeadEatTailOrRottenApple() {
         if (this.field[this.zmey[0][0]][this.zmey[0][1]] === 3 || this.field[this.zmey[0][0]][this.zmey[0][1]] === 4) {
+            this.stopGame();
             this.showWindow("over");
         }
     }
 
     setLevelInView() {
+        this.level += 1;
         this.ZmeyView.setLevel(this.level);
     }
 
     setNewLevelGame() {
         if (this.count === this.fields[this.level].count) {
-            this.level += 1;
-            this.init();
             this.setLevelInView();
+            this.stopGame();
+            this.init(); 
+            this.startGame();
         }
     }
 
     winGame() {
-        if (this.count === this.fields[this.fields.length-1].count) {  
+        if (this.count === this.fields[this.fields.length-1].count) { 
+            this.stopGame(); 
+            this.setLevelInView();
             this.showWindow("win");
             return true;
         }
